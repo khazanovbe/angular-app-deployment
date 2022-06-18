@@ -52,8 +52,14 @@ jobs:
             dist
             !dist/**/*.md
       - name: Telegram Notifications
-        uses: "appleboy/telegram-action@master"
+        uses: appleboy/telegram-action@master
         with: 
           to: ${{secrets.TELEGRAM_CHAT_ID}}
           token: ${{secrets.TELEGRAM_TOKEN}}
-          args: New version published
+          message: |
+            ${{ github.actor }} created commit:
+              Commit message: ${{ github.event.commits[0].message }}
+              
+              Repository: ${{ github.repository }}
+              
+              See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
