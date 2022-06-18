@@ -1,0 +1,228 @@
+<div class="metrics-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <tui-input-number formControlName="age">
+        Ваш возраст
+    </tui-input-number>
+
+    <tui-checkbox-block formControlName="holiday">
+        Сегодня праздничный день
+    </tui-checkbox-block>
+
+    <tui-select
+    formControlName="sex"
+    >
+        Ваш пол
+        <input
+            tuiTextfield
+        />
+        <tui-data-list-wrapper
+            *tuiDataList
+            [items]="sex"
+        ></tui-data-list-wrapper>
+    </tui-select>
+
+    <tui-input-number formControlName="income">
+        Ваш ежемесячный доход
+    </tui-input-number>
+
+    <tui-select
+    formControlName="familyState"
+    >
+        Семейное положение
+        <input
+            tuiTextfield
+        />
+        <tui-data-list-wrapper
+            *tuiDataList
+            [items]="familyStates"
+        ></tui-data-list-wrapper>
+    </tui-select>
+
+    <tui-checkbox-block formControlName="changeWork">
+        Есть ли у вас желание сменить работу
+    </tui-checkbox-block>
+
+    <tui-input-number formControlName="countOfChildren">
+        Количество детей
+    </tui-input-number>
+
+    <tui-checkbox-block formControlName="cityOrTown">
+        Вы проживаете в городе-милионнике
+    </tui-checkbox-block>
+
+    <div class="weather" formGroupName = "weather">
+        <tui-select class="weather-field"
+        formControlName="clouds"
+        >
+            Сегодня на улице...
+            <input
+                tuiTextfield
+            />
+            <tui-data-list-wrapper
+                *tuiDataList
+                [items]="clouds"
+            ></tui-data-list-wrapper>
+        </tui-select>
+        <tui-input-number class="weather-field" formControlName="temperature"
+            [min]="-50"
+            [max] ="50">
+            Температура
+        </tui-input-number>
+    </div>
+
+    <tui-select
+        formControlName="flat"
+        >
+        Вид проживания
+        <input
+            tuiTextfield
+        />
+        <tui-data-list-wrapper
+            *tuiDataList
+            [items]="flats"
+        ></tui-data-list-wrapper>
+    </tui-select>
+
+    <tui-checkbox-block formControlName="chronicDeseases">
+        Имеются ли у вас хронические заболевания
+    </tui-checkbox-block>
+
+    <tui-input-number formControlName="termOfWork">
+       Как долго вы работаете на текущем месте работы(в месяцах)
+    </tui-input-number>
+
+    <tui-input-number formControlName="workingHours">
+        Длительность вашего рабочего дня
+     </tui-input-number>
+
+     <tui-input-number formControlName="workOvertime">
+        Количество сверхурочных часов
+     </tui-input-number>
+
+     <tui-select
+        formControlName="workType"
+        >
+        Формат работы
+        <input
+            tuiTextfield
+        />
+        <tui-data-list-wrapper
+            *tuiDataList
+            [items]="workTypes"
+        ></tui-data-list-wrapper>
+    </tui-select>
+
+    <tui-checkbox-block formControlName="hobby">
+        Есть ли у вас хобби
+    </tui-checkbox-block>
+
+    <tui-checkbox-block formControlName="sportToday">
+        Занимались ли вы сегодня спортом
+    </tui-checkbox-block> 
+    
+
+    <div class="take-a-photo">
+    <webcam [trigger]="takePhoto" (imageCapture)="onImageCapture($event)"></webcam>
+    <button     
+        *ngIf="!photoTaken"
+        tuiButton
+        type="button"
+        appearance="primary"
+        class="tui-space_right-3 tui-space_bottom-3"
+        (click) = "takePhoto.emit()"
+    >
+        Сделать фото
+    </button>
+    <button     
+        *ngIf="photoTaken"
+        tuiButton
+        type="button"
+        appearance="primary"
+        class="tui-space_right-3 tui-space_bottom-3"
+        (click) = "takePhoto.emit()"
+    >
+        Переснять
+    </button>
+        <div *ngIf="photoTaken" class="snapshot">
+            <h3>Отлично вышло!</h3>
+            <img [src]="capturedPhoto">
+        </div>
+    </div>
+    <tui-loader
+                class="inline-flex tui-space_right-2 buttons"
+                [showLoader]="showLoader"
+                [inheritColor]="true"
+                [overlay]="true"
+            >
+    <div class="">
+            <button
+                tuiButton
+                type="button"
+                appearance="secondary"
+                class="tui-space_right-3 tui-space_bottom-3"
+                (click)="onReset()"
+            >
+                Очистить
+            </button>
+            
+            <button
+                tuiButton
+                type="button"
+                appearance="primary"
+                class="tui-space_right-3 tui-space_bottom-3"
+                (click) = "onSubmit()"
+            >
+                Сохранить
+            </button>
+            
+    </div>
+ </tui-loader>
+ <tui-loader
+                class="inline-flex tui-space_right-2"
+                [showLoader]="showLoader"
+                [inheritColor]="true"
+                [overlay]="true"
+            >
+    <div *ngIf="isResultRecieved" class="emotions-results">
+        <table tuiTable
+            class="table"
+            [columns]="columns"
+        >
+            <thead tuiThead >
+                <tr tuiThGroup>
+                    <th
+                    tuiTh 
+                    *tuiHead="'name'"
+                    >
+                    Эмоция
+                    </th>
+                    <th tuiTh
+                    *tuiHead="'value'">%</th>
+                </tr>
+            </thead>
+            <tbody
+            tuiTbody
+            [data]="emotions"
+            >
+                <tr
+                    *tuiRow="let emotion of emotions"
+                    tuiTr
+                >   
+                    <td
+                        tuiTd
+                     *tuiCell="'name'"
+                    >
+                        <span>{{emotion.name}}</span>
+                    </td>
+                    <td
+                    tuiTd
+                    *tuiCell="'value'"
+                    >
+                        <span>{{emotion.value*100+'%'}}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </tui-loader>
+</div>
