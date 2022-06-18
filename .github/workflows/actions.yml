@@ -51,3 +51,9 @@ jobs:
           path: |
             dist
             !dist/**/*.md
+      - name: Telegram Notifications
+        uses: "actions/appleboy-telegram-action@master"
+        with: 
+          to: ${{secrets.TELEGRAM_CHAT_ID}}
+          token: ${{secrets.TELEGRAM_TOKEN}}
+          args: New version published
