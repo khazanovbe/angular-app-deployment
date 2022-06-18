@@ -26,11 +26,13 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "less",
-            "assets": [{
-              "glob": "**/*",
-              "input": "node_modules/@taiga-ui/icons/src",
-              "output": "assets/taiga-ui/icons"
-            }],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "node_modules/@taiga-ui/icons/src",
+                "output": "assets/taiga-ui/icons"
+              }
+            ],
             "styles": [
               "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
               "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less"
@@ -108,9 +110,21 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
-  "defaultProject": "happiness-index"
+  "defaultProject": "happiness-index",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
