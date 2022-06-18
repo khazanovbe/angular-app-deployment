@@ -9,7 +9,7 @@ import { IEmotion } from '../interfaces';
   templateUrl: './metrics-form.component.html',
   styleUrls: ['./metrics-form.component.less']
 })
-export class MetricsFormComponent implements OnInit {
+export class MetricsFormComponent {
   capturedPhoto : any = null;
   photoTaken = false;
   showLoader = false;
@@ -99,8 +99,6 @@ export class MetricsFormComponent implements OnInit {
     sportToday: new FormControl(false),
     photo: new FormControl(null),
   });
-  ngOnInit(): void {
-  }
 
   onSubmit(){
     this.showLoader = true;
